@@ -12,3 +12,89 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+model Session {
+  id Int @id @default(autoincrement())
+  annee DateTime
+  Type String @db.VarChar(255)
+  Ville String @db.VarChar(255)
+  cohorte Cohorte[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Cohorte {
+  Code_cohorte Int @id @default(autoincrement())
+  session Session @relation(fields: [Id_session], references: [id])
+  Id_session Int
+  affecter Affecter[]
+  apprenant Apprennat[]
+  Description String @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Affecter {
+  Code_affecter Int @id @default(autoincrement())
+  cohorte Cohorte @relation(fields: [Code_cohorte], references: [Code_cohorte])
+  coach Coaches @relation(fields: [Matricule_coach], references: [Matricule_coach])
+  Code_cohorte Int
+  Matricule_coach Int
+  Date DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Coaches {
+  Matricule_coach Int @id @default(autoincrement())
+  affecter Affecter[]
+  machine Machine[]
+  Nom String @db.VarChar(255)
+  Postnom String @db.VarChar(255)
+  Prenom String @db.VarChar(255)
+  Date_naissance DateTime
+  Adresse String @db.VarChar(255)
+  Email String @db.VarChar(255)
+  Telephone String @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Machine {
+  Tag_machine Int @id @default(autoincrement())
+  coach Coaches @relation(fields: [Matricule_coach], references: [Matricule_coach])
+  model Model @relation(fields: [Code_modele], references: [Code_modele])
+  frabriquant Fabriquant @relation(fields: [Code_fabriquant], references: [Code_fabriquant])
+  Code_modele Int
+  Matricule_coach Int
+  Code_fabriquant Int
+  apprenant Apprennat[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Fabriquant {
+  Code_fabriquant Int @id @default(autoincrement())
+  Libelle String @db.VarChar(255)
+  machine Machine[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Model {
+  Code_modele Int @id @default(autoincrement())
+  machine Machine[]
+  Libelle String @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Apprennat {
+  Matricule_apprenant Int @id @default(autoincrement())
+  Nom String @db.VarChar(255)
+  Postnom String @db.VarChar(255)
+  Prenom String @db.VarChar(255)
+  Date_naissance DateTime
+  Adresse String @db.VarChar(255)
+  Email String @db.VarChar(255)
+  Telephone String @db.VarChar(255)
+  Code_cohorte Int
+  Tag_machine Int
+  cohorte Cohorte @relation(fields: [Code_cohorte], references: [Code_cohorte])
+  machine Machine @relation(fields: [Tag_machine], references: [Tag_machine])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
