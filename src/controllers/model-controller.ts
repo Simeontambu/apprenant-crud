@@ -1,21 +1,20 @@
 import { request, response } from 'express';
 
-import { createSession, showAllSessions, updateSession, deleteSession } from '../services/session-service';
+import { createModel, showAllModel, deleteModel, updateModel } from '../services/model-service';
 
 export const create = async (req: request, res: response) => {
     try {
-        const session = await createSession({
-            annee: req.body.annee,
-            Type: req.body.type,
-            Ville: req.body.ville,
+
+        const model = await createModel({
+            Libelle: req.body.libelle,
         })
         return res.status(201).json({
-            Message: "Session create",
-            data: session
+            Message: "Model create",
+            data: model
         })
 
     } catch (error) {
-        console.error("Error create session", error);
+        console.error("Error create model", error);
         return res.status(500).json({
             Message: "Error",
         });
@@ -24,10 +23,10 @@ export const create = async (req: request, res: response) => {
 }
 
 export const showAll = async (req: request, res: response) => {
-    const session = await showAllSessions()
+    const model = await showAllModel()
     return res.status(201).json({
-        Message: "Session data list",
-        data: session
+        Message: "Model data list",
+        data: model
     })
 }
 
@@ -35,24 +34,22 @@ export const update = async (req: request, res: response) => {
     try {
 
         const id = parseInt(req.params.id);
-        const session = await updateSession(
+        const model = await updateModel(
 
             {
-                annee: req.body.annee,
-                Type: req.body.type,
-                Ville: req.body.ville,
+                Libelle: req.body.libelle,
             },
             id
 
         )
         return res.status(201).json({
-            Message: "Session update",
-            data: session
+            Message: "Model update",
+            data: model
         })
 
     } catch (error) {
 
-        console.error("Error update session", error);
+        console.error("Error update Model", error);
         return res.status(500).json({
             Message: "Error",
         });
@@ -61,9 +58,9 @@ export const update = async (req: request, res: response) => {
 
 export const remove = async (req: request, res: response) => {
     const id = parseInt(req.params.id);
-    const session = await deleteSession(id)
+    const model = await deleteModel(id)
     return res.status(201).json({
-        Message: "Session deelte",
-        data: session
+        Message: "Model delete",
+        data: model
     })
 }

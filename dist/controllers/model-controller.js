@@ -10,22 +10,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.remove = exports.update = exports.showAll = exports.create = void 0;
-const session_service_1 = require("../services/session-service");
+const model_service_1 = require("../services/model-service");
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req);
-        const session = yield (0, session_service_1.createSession)({
-            annee: req.body.annee,
-            Type: req.body.type,
-            Ville: req.body.ville,
+        const model = yield (0, model_service_1.createModel)({
+            Libelle: req.body.libelle,
         });
         return res.status(201).json({
-            Message: "Session create",
-            data: session
+            Message: "Model create",
+            data: model
         });
     }
     catch (error) {
-        console.error("Error create session", error);
+        console.error("Error create model", error);
         return res.status(500).json({
             Message: "Error",
         });
@@ -33,28 +30,26 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.create = create;
 const showAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const session = yield (0, session_service_1.showAllSessions)();
+    const model = yield (0, model_service_1.showAllModel)();
     return res.status(201).json({
-        Message: "Session data list",
-        data: session
+        Message: "Model data list",
+        data: model
     });
 });
 exports.showAll = showAll;
 const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const session = yield (0, session_service_1.updateSession)({
-            annee: req.body.annee,
-            Type: req.body.type,
-            Ville: req.body.ville,
+        const model = yield (0, model_service_1.updateModel)({
+            Libelle: req.body.libelle,
         }, id);
         return res.status(201).json({
-            Message: "Session update",
-            data: session
+            Message: "Model update",
+            data: model
         });
     }
     catch (error) {
-        console.error("Error update session", error);
+        console.error("Error update Model", error);
         return res.status(500).json({
             Message: "Error",
         });
@@ -63,11 +58,11 @@ const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.update = update;
 const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = parseInt(req.params.id);
-    const session = yield (0, session_service_1.deleteSession)(id);
+    const model = yield (0, model_service_1.deleteModel)(id);
     return res.status(201).json({
-        Message: "Session deelte",
-        data: session
+        Message: "Model delete",
+        data: model
     });
 });
 exports.remove = remove;
-//# sourceMappingURL=session-controller.js.map
+//# sourceMappingURL=model-controller.js.map
