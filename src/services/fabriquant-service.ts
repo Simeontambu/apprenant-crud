@@ -11,7 +11,7 @@ export const createFrabriquant = async (data: Prisma.FabriquantCreateInput) => {
     return fabriquant
 }
 
-export const showAllModel = async () => {
+export const showAllFabriquant = async () => {
     const model = await prisma.fabriquant.findMany();
     return model;
 };
